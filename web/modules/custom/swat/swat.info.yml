@@ -1,0 +1,7 @@
+name: Swat
+description: This module creates a page with a form where users can leave their comments.
+type: module
+core_version_requirement: ^8 || ^9
+package: Custom
+libraries-override:
+  bootstrap_barrio/file: true

@@ -1,0 +1,20 @@
+uuid: 0211d869-28eb-4711-981a-d1493505c2b0
+langcode: en
+status: true
+dependencies:
+  theme:
+    - swattheme
+_core:
+  default_config_hash: 13GQpeITIJsp1kyPniXtWZfyFH87vb1xxJCHifL4UeE
+id: swattheme_local_actions
+theme: swattheme
+region: content
+weight: -20
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  provider: core
+  label_display: '0'
+visibility: {  }

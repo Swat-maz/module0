@@ -1,0 +1,10 @@
+name: swattheme
+type: theme
+description: My first Drupal 8 theme.
+core_version_requirement: ^9
+base theme: classy
+libraries:
+  - swattheme/global-styling
+  - seven/classy.messages
+  - core/normalize
+  - seven/global-styling

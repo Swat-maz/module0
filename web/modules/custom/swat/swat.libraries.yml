@@ -1,0 +1,5 @@
+swat:
+  js:
+    js/swat.js: {}
+  dependencies:
+    - core/jquery

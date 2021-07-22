@@ -1,0 +1,6 @@
+swat.admin:
+  title: 'Cats list'
+  description: 'example of how to make an admin settings page link'
+  parent: system.admin_structure
+  route_name: swat.admin_page
+  weight: 100
