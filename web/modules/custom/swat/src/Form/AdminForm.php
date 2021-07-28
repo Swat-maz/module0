@@ -2,6 +2,7 @@
 
 namespace Drupal\swat\Form;
 
+use Drupal;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Form\FormStateInterface;
@@ -22,17 +23,20 @@ class AdminForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $conn = Database::getConnection();
     $query = $conn->select('swat', 's');
-    $query->fields('s', ['id', 'name', 'email', 'timestamp', 'photo']);
+    $query->fields('s', ['id', 'name', 'email', 'timestamp', 'photo', 'avatar', 'number', 'feedback']);
     $query->orderBy('s.timestamp', 'DESC');
     $data = $query->execute()->fetchAllAssoc('id');
     $data = json_decode(json_encode($data), TRUE);
     $header = [
-      'name' => t('Cat name'),
-      'photo' => t('Cat photo'),
+      'name' => t('User name'),
+      'ava' => t('User avatar'),
+      'feedback' => t('Feedback'),
+      'photo' => t('Photo'),
       'email' => t('Email'),
+      'number' => t('Phone number'),
       'time' => t('Added'),
       'delete' => '',
       'edit' => '',
@@ -43,28 +47,51 @@ class AdminForm extends FormBase {
       $id = $value['id'];
       $email = $value['email'];
       $timestamp = $value['timestamp'];
-      $time = date('d/m/Y G:i:s', $timestamp);
-      $file = File::load($value['photo']);
+      $time = date('F/d/Y G:i:s', $timestamp);
+      $avatarphoto = File::load($value['avatar']);
+      $feedbackphoto = File::load($value['photo']);
       $delete = [
-        'delete' => t("<a class=\"btn delete btn-outline-danger use-ajax\" data-dialog-options='{\"width\":400}' data-dialog-type=\"modal\" href=\"/swat/cats/delete/$id?destination=/admin/structure/cats/list\">Delete</a>"),
+        'delete' => t("<a class=\"btn delete btn-outline-danger use-ajax\" data-dialog-options='{\"width\":400}' data-dialog-type=\"modal\" href=\"/response/delete/$id?destination=/admin/structure/response\">Delete</a>"),
       ];
       $edit = [
-        'edit' => t("<a class=\"btn edit btn-outline-warning use-ajax\" data-dialog-type=\"modal\" data-dialog-options='{\"width\":400}' href=\"/swat/cats/edit/$id?destination=/admin/structure/cats/list\">Edit</a>"),
+        'edit' => t("<a class=\"btn edit btn-outline-warning use-ajax\" data-dialog-type=\"modal\" data-dialog-options='{\"width\":400}' href=\"/response/edit/$id?destination=/admin/structure/response\">Edit</a>"),
       ];
-
-      $picture = [
+      if ($avatarphoto !== null) {
+        $ava = $avatarphoto->getFileUri();
+      }
+      else {
+        $ava = 'public://default/default.jpeg';
+      }
+      if ($feedbackphoto !== null) {
+        $feedfoto = $feedbackphoto->getFileUri();
+      }
+      else {
+        $feedfoto = '';
+      }
+      $avatarka = [
         'data' => [
           '#type' => 'image',
           '#theme' => 'image_style',
-          '#style_name' => 'small',
-          '#uri' => $file->getFileUri(),
+          '#style_name' => 'thumbnail',
+          '#uri' => $ava,
+        ],
+      ];
+      $userphoto = [
+        'data' => [
+          '#type' => 'image',
+          '#theme' => 'image_style',
+          '#style_name' => 'thumbnail',
+          '#uri' => $feedfoto,
         ],
       ];
       $result[] = [
         "id" => $id,
         "name" => $full_name,
+        "ava" => $avatarka,
+        "feedback" => $value['feedback'],
+        "photo" => $userphoto,
         "email" => $email,
-        "photo" => $picture,
+        "number" => $value['number'],
         "time" => $time,
         "delete" => $delete,
         "edit" => $edit,
@@ -75,7 +102,7 @@ class AdminForm extends FormBase {
       '#type' => 'tableselect',
       '#header' => $header,
       '#options' => $result,
-      '#empty' => t('No cats found'),
+      '#empty' => t('No feedbacks found'),
     ];
 
     $form['action']['submit'] = [
@@ -91,12 +118,13 @@ class AdminForm extends FormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     if ($form['table']['#value'] == NULL) {
-      $form_state->setErrorByName('title', $this->t('Choose what you want to delete0!'));
+      $form_state->setErrorByName('title', $this->t('Choose what you want to delete!'));
     }
   }
 
   /**
    * {@inheritdoc}
+   * Delete selected records.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $chekboxes = $form['table']['#value'];
@@ -104,7 +132,7 @@ class AdminForm extends FormBase {
       $allIdDelete[] = $form['table']['#options'][$rows]["id"];
     }
     foreach ($allIdDelete as $rows) {
-      $query = \Drupal::database()->delete('swat');
+      $query = Drupal::database()->delete('swat');
       $query->condition('id', $rows);
       $query->execute();
     }

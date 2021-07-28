@@ -10,7 +10,7 @@
  */
 function swat_theme($existing, $type, $theme, $path) {
   return [
-    'swattcat' => [
+    'swat' => [
       'variables' => ['items' => [], 'title' => '', 'form' => []],
       'template' => 'swat-theme',
     ],

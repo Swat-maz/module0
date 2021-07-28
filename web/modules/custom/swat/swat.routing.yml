@@ -1,26 +1,26 @@
-cats_page.content:
-  path: '/swat/cats'
+response_form.content:
+  path: '/response'
   defaults:
-    _controller: '\Drupal\swat\Controller\CatsController::show'
-    _title: 'Hello'
+    _controller: '\Drupal\swat\Controller\ResponseController::show'
+    _title: ''
   requirements:
     _permission: 'access content'
-cats_page.delete:
-  path: '/swat/cats/delete/{id}'
+response_page.delete:
+  path: '/response/delete/{id}'
   defaults:
     _form: '\Drupal\swat\Form\ConfirmDeleteForm'
     _title: 'Delete record?'
   requirements:
     _permission: 'administer site configuration'
-cats_page.edit:
-  path: '/swat/cats/edit/{id}'
+response_page.edit:
+  path: '/response/edit/{id}'
   defaults:
     _form: '\Drupal\swat\Form\EditForm'
     _title: 'Edit record'
   requirements:
     _permission: 'administer site configuration'
 swat.admin_page:
-  path: '/admin/structure/cats/list'
+  path: '/admin/structure/response'
   defaults:
     _form: '\Drupal\swat\Form\AdminForm'
     _title: 'example'

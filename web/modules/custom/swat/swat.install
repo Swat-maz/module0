@@ -6,53 +6,70 @@
   */
 function swat_schema() {
 
-  $schema['swat'] = array(
+  $schema['swat'] = [
     'description' => 'Database example',
-    'fields' => array(
-      'id' => array(
+    'fields' => [
+      'id' => [
         'description' => 'ID',
         'type' => 'serial',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'uid' => array(
+      ],
+      'uid' => [
         'description' => 'UID user',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
-      ),
-      'name' => array(
+      ],
+      'name' => [
         'description' => 'Cats name',
         'type' => 'varchar',
-        'length' => 32,
-        'not null' => FALSE,
+        'length' => 100,
+        'not null' => TRUE,
         'default' => '',
-      ),
-      'email' => array(
+      ],
+      'email' => [
         'description' => 'User email',
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
         'default' => '',
-      ),
-      'photo' => array(
-        'description' => 'Cats photo',
+      ],
+      'feedback' => [
+        'description' => 'User feedback',
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+      'number' => [
+        'description' => 'User phone number',
+        'type' => 'varchar',
+        'length' => 15,
+        'not null' => TRUE,
+      ],
+      'avatar' => [
+        'description' => 'User avatar',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
-      ),
-      'timestamp' => array(
+      ],
+      'photo' => [
+        'description' => 'User comment photo',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'timestamp' => [
         'description' => 'Timestamp',
         'type' => 'varchar',
         'length' => 64,
         'not null' => FALSE,
-        'default' => '',
-      ),
-    ),
-    'primary key' => array('id'),
-  );
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
 
   return $schema;
 }

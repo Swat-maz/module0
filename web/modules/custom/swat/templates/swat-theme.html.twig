@@ -1,0 +1,45 @@
+{{ attach_library('swat/swat') }}
+<div class="swat-content">
+  <div class="swat-form">
+    {{ form }}
+  </div>
+  {% if items %}
+    <div class="db-show">
+      {% for s in items %}
+        <div class="module_body">
+          <div class="feedback_content">
+            <div class="user-information">
+              <div class="user-avatar-photo">{{ s.ava }}</div>
+              <div class="creator-information">
+                <div class="user-name">{{ s.name }}</div>
+                <div class="feedback-add-time">{{ s.time }}</div>
+              </div>
+            </div>
+            <div class="feedback-information">
+              <div class="feedback">{{ s.feedback }}</div>
+              <a target="_blank" href="{{ s.uri }}">{{ s.photo }}</a>
+            </div>
+            <div class="contact-information">
+              <div class="user-email">
+                <a href="mailto:{{ s.email }}">{{ s.email }}</a>
+              </div>
+              <div class="user-phone">
+                <a href="tel:{{ s.phone }}">{{ s.phone }}</a>
+              </div>
+            </div>
+          </div>
+          {% if user.hasPermission('administrator') %}
+            <div class="buttons">
+              <a class="btn delete use-ajax" data-dialog-type="modal"
+                 data-dialog-options="{&quot;width&quot;:400}"
+                 href="/response/delete/{{ s.id }}?destination={{ path('response_form.content') }}">Delete</a>
+              <a class="btn edit use-ajax" data-dialog-type="modal"
+                 data-dialog-options="{&quot;width&quot;:400}"
+                 href="/response/edit/{{ s.id }}?destination={{ path('response_form.content') }}">Edit</a>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

@@ -1,19 +1,20 @@
 <?php
 
 /**
- * Contains \Drupal\swat\Form\CatsForm.
+ * Contains \Drupal\swat\Form\ResponseForm.
  *
  * @file
  */
 
 namespace Drupal\swat\Form;
 
+use Drupal;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
 /**
- * Add my class to delete info from db.
+ * Add my class to delete info from database.
  *
  * @see \Drupal\Core\Form\FormBase
  */
@@ -29,7 +30,7 @@ class ConfirmDeleteForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL): array {
     $this->id = $id;
     return parent::buildForm($form, $form_state);
   }
@@ -44,14 +45,14 @@ class ConfirmDeleteForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getCancelUrl() {
-    return new Url('cats_page.content');
+  public function getCancelUrl(): Url {
+    return new Url('response_form.content');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getQuestion() {
+  public function getQuestion(): Drupal\Core\StringTranslation\TranslatableMarkup {
     return $this->t('Do you want to delete this post?');
   }
 
@@ -59,7 +60,7 @@ class ConfirmDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $query = \Drupal::database()->delete('swat');
+    $query = Drupal::database()->delete('swat');
     $query->condition('id', $this->id);
     $query->execute();
   }
